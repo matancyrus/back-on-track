@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css">
+    <title>Back On Track Snippet Board</title>
+</head>
+<body>   
+    <div class="page">
+        <header>
+            <h1>Back On Track Snippet Board</h1>
+        </header>
+        <main class="card">
+            <p>Please select an action:</p>    
+            <div class="tab-buttons">
+            <button type="button" id="show-set">Add Snippet</button>
+            <button type="button" id="show-get">Get Snippet</button>
+            </div>        
+            <div class="set hidden" id="set-section">
+            <form id="set-form">    
+                <div class="fields">
+                    <label for="set-snippetkey">Snippet Name:</label>
+                    <input type="text" id="set-snippetkey" name="snippetkey">
+                    <br><br>
+                    <textarea id="set-snippetvalue" name="snippetvalue" class="textbox" rows="10" cols="50" placeholder="Type your snippet here..."></textarea>
+                    <br><br>
+                </div>
+                <div class="button-group">
+                    <button type="submit">Submit Snippet</button>
+                </div>
+            </form>   
+            </div>     
+            <div class="get hidden" id="get-section">
+            <form id="get-form"> 
+                <div class="fields">
+                    <label for="get-snippetkey">Snippet Name:</label>
+                    <input type="text" id="get-snippetkey" name="snippetkey">
+                    <br><br>
+                </div>
+                <div class="button-group">
+                    <button type="submit" id="get-snippet">Find</button>
+                </div>
+                <div class ="resultbox hidden" id="result-box">
+                    <p>Resultbox</p>
+                </div>             
+            </form>  
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

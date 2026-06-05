@@ -1,0 +1,126 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #374667;
+  font-family: Arial, sans-serif;
+}
+.card {
+  background-color: white;
+  padding: 50px;
+  border-radius: 12px;
+  width: 300px;
+  margin: 40px;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+
+
+p {
+font-size: 20px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+button {
+  background-color: #3d69c8;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.fields{
+  justify-content: center; 
+  align-items: center;       
+}
+.button-group {
+  display: flex;
+  gap: 30px; 
+}
+button:hover {
+  background-color: #859ddf;
+}
+
+input[type="text"]{
+  outline: none; /* Removes the default ugly browser outline */
+  border-color: #0066cc; /* Modern blue border */
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2); /* Soft blue glow */
+  font-size: 16px;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease; /* Smooth transition for the focus effect */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+input[type="text"]:focus {
+  outline: none; /* Removes the default ugly browser outline */
+  border-color: #0066cc; /* Modern blue border */
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2); /* Soft blue glow */
+}
+
+.get {
+    margin-top: 30px;
+}
+
+.tab-buttons{
+  margin: 20px auto;
+  display: flex;
+  gap: 30px; 
+
+}
+.resultbox {
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  text-align: left;
+  border-radius: 20px;
+  width: 200px;
+  min-height: 100px;
+  margin: 20px auto;
+  border: 2px solid #ccc;
+  border-color: #aab4cb; 
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+
+.textbox {
+  resize: none;
+  width: 100%;       /* Spans the full width of the form container */
+  height: 200px;     /* Sets a distinct vertical height */
+  padding: 12px;     /* Adds space inside the box for readability */
+  width: 100%;
+  height: 180px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  resize: none;
+  transition: all 0.3s ease; 
+}
+
+textarea:focus {
+  outline: none; 
+  border-color: #0066cc; 
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
+}
+
+
+

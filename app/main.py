@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import redis
 import os
 from prometheus_client import Counter, CollectorRegistry, generate_latest, CONTENT_TYPE_LATEST
@@ -8,6 +9,14 @@ import yaml
 # Create a custom registry
 registry = CollectorRegistry()
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
