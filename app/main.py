@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import redis
 import os
 from prometheus_client import Counter, CollectorRegistry, generate_latest, CONTENT_TYPE_LATEST
-import yaml
 
 
 # Create a custom registry
@@ -39,7 +38,7 @@ def health():
     try:
         r = get_redis_client()
         r.ping()
-        return {"status": "ok", "redis": "connected"}
+        return {"status": "ok", "redis": "Connected"}
     except Exception as e:
         return {"status": "degraded", "redis": "not connected", "error": str(e)}
 
@@ -65,6 +64,20 @@ def get_value(key: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.delete("/del/{key}")
+def del_value(key: str):
+    try:
+        r = get_redis_client()
+        value = r.get(key)
+        if value is None:
+            raise HTTPException(status_code=404, detail="Key not found")
+        r.delete(key)
+        print("hey")
+        return {f"The key '{key}' has been deleted"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/metrics")

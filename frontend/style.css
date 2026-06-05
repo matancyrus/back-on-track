@@ -10,7 +10,7 @@ body {
 .card {
   background-color: white;
   padding: 50px;
-  border-radius: 12px;
+  border-radius: 40px;
   width: 300px;
   margin: 40px;
 }
@@ -49,14 +49,14 @@ button:hover {
 }
 
 input[type="text"]{
-  outline: none; /* Removes the default ugly browser outline */
-  border-color: #0066cc; /* Modern blue border */
+  outline: none; 
+  border-color: #0066cc; 
   background-color: #ffffff;
-  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2); /* Soft blue glow */
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2); 
   font-size: 16px;
   color: #2c3e50;
   background-color: #f9f9f9;
-  transition: all 0.3s ease; /* Smooth transition for the focus effect */
+  transition: all 0.3s ease; 
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -99,11 +99,10 @@ input[type="text"]:focus {
 
 .textbox {
   resize: none;
-  width: 100%;       /* Spans the full width of the form container */
-  height: 200px;     /* Sets a distinct vertical height */
-  padding: 12px;     /* Adds space inside the box for readability */
+  width: 100%;     
+  height: 200px;    
+  padding: 12px;    
   width: 100%;
-  height: 180px;
   padding: 12px 16px;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -122,5 +121,11 @@ textarea:focus {
   box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
 }
 
+.redis-status{
+  color: #494e53;
+  margin: 20px auto;
+  background-color: hsl(193, 100%, 98%);
+  border-radius: 10px;
 
+}
 

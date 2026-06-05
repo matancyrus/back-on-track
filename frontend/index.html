@@ -12,6 +12,9 @@
             <h1>Back On Track Snippet Board</h1>
         </header>
         <main class="card">
+            <div class="redis-status">
+                <h3 id="redis-status" ></h3>
+            </div>
             <p>Please select an action:</p>    
             <div class="tab-buttons">
             <button type="button" id="show-set">Add Snippet</button>
@@ -29,6 +32,7 @@
                 <div class="button-group">
                     <button type="submit">Submit Snippet</button>
                 </div>
+                    <h3 class="hidden" id="setmessage"></h3>
             </form>   
             </div>     
             <div class="get hidden" id="get-section">
