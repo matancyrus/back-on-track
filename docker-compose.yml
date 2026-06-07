@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:7
+    container_name: back-on-track-redis
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ./app
+    container_name: back-on-track-api
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - redis
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: back-on-track-frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
