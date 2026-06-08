@@ -12,6 +12,10 @@ spec:
       labels:
         app: back-on-track-frontend
     spec:
+      initContainers:
+      - name: wait-for-api
+        image: busybox:1.36
+        command: ['sh', '-c', 'until nc -z -w 2 back-on-track-api-service 8000; do echo "waiting for api..."; sleep 2; done']
       containers:
         - name: back-on-track-frontend
           image: matancyrus/back-on-track-frontend:latest
