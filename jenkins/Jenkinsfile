@@ -105,8 +105,8 @@ spec:
                             printf '{"auths":{"https://index.docker.io/v1/":{"auth":"%s"}}}\\n' "$AUTH" > /kaniko/.docker/config.json
 
                             /kaniko/executor \
-                            --context "$WORKSPACE/back-on-track/app" \
-                            --dockerfile "$WORKSPACE/back-on-track/app/Dockerfile" \
+                            --context "$WORKSPACE/app" \
+                            --dockerfile "$WORKSPACE/app/Dockerfile" \
                             --destination "$DOCKERHUB_REPO:$IMAGE_TAG"
                         '''
                     }
