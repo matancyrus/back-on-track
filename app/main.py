@@ -72,7 +72,6 @@ def del_value(key: str):
         if value is None:
             raise HTTPException(status_code=404, detail="Key not found")
         r.delete(key)
-        print("hey")
         return {"message": f"The key '{key}' has been deleted"}
     except HTTPException:
         raise
