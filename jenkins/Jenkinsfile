@@ -121,7 +121,6 @@ spec:
                         set -eux
 
                         echo "Deploying image: $DOCKERHUB_REPO:$IMAGE_TAG"
-                        kubectl apply -f $WORKSPACE/k8s/api/api-deployment.yaml
                         kubectl set image deployment/$DEPLOYMENT_NAME \
                         $CONTAINER_NAME=$DOCKERHUB_REPO:$IMAGE_TAG \
                         -n $K8S_NAMESPACE
