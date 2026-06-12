@@ -8,3 +8,5 @@ spec:
   volumeName: foo-pv
   accessModes:
     - ReadWriteOnce
+  capacity:
+    storage: 5Gi
