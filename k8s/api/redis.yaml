@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Statefulset
 metadata:
   name: redis
 spec:
@@ -17,3 +17,10 @@ spec:
           image: redis:7
           ports:
             - containerPort: 6379
+          volumeMounts:
+          - name: redis-data
+            mountPath: /data          
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-data-pvc
