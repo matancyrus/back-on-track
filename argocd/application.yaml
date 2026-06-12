@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: back-on-track
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/matancyrus/back-on-track.git
+    targetRevision: HEAD
+    path: k8s/
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: testing
+  syncPolicy:
+    automated:
+      enabled: true
