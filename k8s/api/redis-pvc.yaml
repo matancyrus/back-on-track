@@ -6,3 +6,4 @@ metadata:
 spec:
   storageClassName: "standard" # Empty string must be explicitly set otherwise default StorageClass will be set
   volumeName: foo-pv
+  accessModes: ReadWriteOnce
