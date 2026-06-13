@@ -45,6 +45,7 @@ spec:
                     apk add --no-cache git
                     python --version
                     git --version
+                    pip install -r "$WORKSPACE/app/requirements.txt"
                 '''
             }
         }
@@ -83,6 +84,15 @@ spec:
                     python -m compileall .
                 '''
             }
+
+        stage('liveness test') {
+            steps {
+                sh '''
+                    set -eux
+                    pytest -vv
+                '''
+            }
+
         }
         stage('Build and Push Image with Kaniko') {
             steps {
