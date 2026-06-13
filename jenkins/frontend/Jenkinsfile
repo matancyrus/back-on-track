@@ -40,6 +40,15 @@ spec:
             }
         }     
 
+        stage('Prepare Tools') {
+            steps {
+                sh '''
+                    apt-get install git
+                    python --version
+                    git --version
+                '''
+            }
+        }
 
         // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
         stage('Trust git repository') {
