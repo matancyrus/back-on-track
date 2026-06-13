@@ -46,7 +46,7 @@ spec:
                     apk add --no-cache git
                     python --version
                     git --version
-                    pip install pytest
+                    pip install -r $WORKSPACE/app/tests/requirements.txt
                 '''
             }
         }
