@@ -2,7 +2,6 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'python'
-            customWorkspace '/home/jenkins/agent/workspace/back-on-track'
             yaml '''
 apiVersion: v1
 kind: Pod
@@ -46,7 +45,6 @@ spec:
                     apk add --no-cache git
                     python --version
                     git --version
-                    pip install -r "./app/requirements.txt"
                 '''
             }
         }
@@ -65,6 +63,13 @@ spec:
                 '''
             }
 
+        // This stage is necessary to download the app depndencies
+        stage('Prepare requirements') {
+            steps {
+                sh '''
+                    pip install -r $WORKSPACE/app/requirements.txt
+                '''
+            }
         }
         stage('Show Commit') {
             steps {
