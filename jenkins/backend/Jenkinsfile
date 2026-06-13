@@ -64,14 +64,6 @@ spec:
                 '''
             }
         }
-        // This stage is necessary to download the app depndencies
-        stage('Prepare requirements') {
-            steps {
-                sh '''
-                    pip install -r $WORKSPACE/app/requirements.txt
-                '''
-            }
-        }
         stage('Show Commit') {
             steps {
                 script {
