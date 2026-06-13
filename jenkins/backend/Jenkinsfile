@@ -66,19 +66,6 @@ spec:
             }
         }
 
-        stage('Show Commit') {
-            steps {
-                script {
-                    env.IMAGE_TAG = sh(
-                        script: "git rev-parse --short HEAD",
-                        returnStdout: true
-                    ).trim()
-                }
-
-                echo "Current commit short SHA: ${env.IMAGE_TAG}"
-            }
-        }
-
         stage('Validate Python App') {
             steps {
                 sh '''
@@ -107,7 +94,7 @@ spec:
                             set -eux
 
                             echo "Workspace is: $WORKSPACE"
-                            echo "Docker image will be: $DOCKERHUB_REPO:$IMAGE_TAG"
+                            echo "Docker image will be: $DOCKERHUB_REPO:latest"
 
                             mkdir -p /kaniko/.docker
 
@@ -118,7 +105,7 @@ spec:
                             /kaniko/executor \
                             --context "$WORKSPACE/app" \
                             --dockerfile "$WORKSPACE/app/Dockerfile" \
-                            --destination "$DOCKERHUB_REPO:$IMAGE_TAG"
+                            --destination "$DOCKERHUB_REPO:latest"
                         '''
                     }
                 }
@@ -129,7 +116,19 @@ spec:
             steps {
                 container('kubectl') {
                     sh '''
-                    sed -i "s|image: .*|image: ${DOCKERHUB_REPO}:${IMAGE_TAG}|" k8s/api/api-deployment.yaml
+                        set -eux
+
+                        echo "Deploying image: $DOCKERHUB_REPO:latest"
+                        kubectl set image deployment/$DEPLOYMENT_NAME \
+                        $CONTAINER_NAME=$DOCKERHUB_REPO:latest \
+                        -n $K8S_NAMESPACE
+
+
+                        kubectl rollout restart deployment/$DEPLOYMENT_NAME \
+                        -n $K8S_NAMESPACE
+
+                        kubectl rollout status deployment/$DEPLOYMENT_NAME \
+                        -n $K8S_NAMESPACE                    
                     '''
                 }
             }
@@ -139,7 +138,7 @@ spec:
     post {
         success {
             echo "Pipeline completed successfully."
-            echo "Image pushed: ${env.DOCKERHUB_REPO}:${env.IMAGE_TAG}"
+            echo "Image pushed: ${env.DOCKERHUB_REPO}:latest"
         }
 
         failure {
