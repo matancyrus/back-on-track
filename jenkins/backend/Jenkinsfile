@@ -2,6 +2,7 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'python'
+            customWorkspace '/var/lib/jenkins/workspace/back-on-track'
             yaml '''
 apiVersion: v1
 kind: Pod
