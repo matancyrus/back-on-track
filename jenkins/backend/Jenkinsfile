@@ -134,7 +134,7 @@ spec:
     post {
         success {
             echo "Pipeline completed successfully."
-            echo "Image pushed: ${env.DOCKERHUB_REPO}:${env.IMAGE_TAG}"
+            echo "Image pushed: ${env.DOCKERHUB_REPO}:latest"
         }
 
         failure {
