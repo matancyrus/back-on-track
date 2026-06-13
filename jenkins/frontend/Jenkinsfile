@@ -1,0 +1,125 @@
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'kaniko'
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:debug
+      command:
+        - /busybox/cat
+      tty: true
+      
+    - name: kubectl
+      image: alpine/k8s:1.30.0
+      command:
+        - cat
+      tty: true
+'''
+        }
+    }
+
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    environment {
+        DOCKERHUB_REPO = "matancyrus/back-on-track"
+        DEPLOYMENT_NAME = "back-on-track-frontend"
+        CONTAINER_NAME = "back-on-track-frontend"
+        K8S_NAMESPACE = "testing"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }     
+
+        stage('Prepare Tools') {
+            steps {
+                sh '''
+                    apk add --no-cache git
+                    python --version
+                    git --version
+                '''
+            }
+        }
+
+        // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
+        stage('Trust git repository') {
+            steps {
+                sh '''
+                    git config --global --add safe.directory '*'
+                '''
+            }
+        }
+
+        stage('Build and Push Image with Kaniko') {
+            steps {
+                container('kaniko') {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKERHUB_USERNAME',
+                        passwordVariable: 'DOCKERHUB_PASSWORD'
+                    )]) {
+                        sh '''
+                            set -eux
+
+                            echo "Workspace is: $WORKSPACE"
+                            echo "Docker image will be: $DOCKERHUB_REPO:latest"
+
+                            mkdir -p /kaniko/.docker
+
+                            AUTH="$(printf "%s:%s" "$DOCKERHUB_USERNAME" "$DOCKERHUB_PASSWORD" | /busybox/base64 | /busybox/tr -d '\\n')"
+
+                            printf '{"auths":{"https://index.docker.io/v1/":{"auth":"%s"}}}\\n' "$AUTH" > /kaniko/.docker/config.json
+
+                            /kaniko/executor \
+                            --context "$WORKSPACE/app" \
+                            --dockerfile "$WORKSPACE/frontend/Dockerfile" \
+                            --destination "$DOCKERHUB_REPO:latest"
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                container('kubectl') {
+                    sh '''
+                        set -eux
+
+                        echo "Deploying image: $DOCKERHUB_REPO:latest"
+                        kubectl set image deployment/$DEPLOYMENT_NAME \
+                        $CONTAINER_NAME=$DOCKERHUB_REPO:latest \
+                        -n $K8S_NAMESPACE
+
+
+                        kubectl rollout restart deployment/$DEPLOYMENT_NAME \
+                        -n $K8S_NAMESPACE
+
+                        kubectl rollout status deployment/$DEPLOYMENT_NAME \
+                        -n $K8S_NAMESPACE                    
+                    '''
+                }
+            }
+        }
+        }
+
+    post {
+        success {
+            echo "Pipeline completed successfully."
+            echo "Image pushed: ${env.DOCKERHUB_REPO}:latest"
+        }
+
+        failure {
+            echo "Pipeline failed. Check the failed stage."
+        }
+    }
+}
