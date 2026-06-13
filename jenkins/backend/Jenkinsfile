@@ -94,7 +94,7 @@ spec:
                             set -eux
 
                             echo "Workspace is: $WORKSPACE"
-                            echo "Docker image will be: $DOCKERHUB_REPO:$IMAGE_TAG"
+                            echo "Docker image will be: $DOCKERHUB_REPO:latest"
 
                             mkdir -p /kaniko/.docker
 
