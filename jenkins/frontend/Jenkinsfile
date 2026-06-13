@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            defaultContainer 'kaniko'
+            defaultContainer 'python'
             yaml '''
 apiVersion: v1
 kind: Pod
@@ -33,7 +33,7 @@ spec:
     }
 
     environment {
-        DOCKERHUB_REPO = "matancyrus/back-on-track"
+        DOCKERHUB_REPO = "matancyrus/back-on-track-frontend"
         DEPLOYMENT_NAME = "back-on-track-frontend"
         CONTAINER_NAME = "back-on-track-frontend"
         K8S_NAMESPACE = "testing"
