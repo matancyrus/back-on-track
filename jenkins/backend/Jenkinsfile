@@ -40,6 +40,21 @@ spec:
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }     
+
+        // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
+        stage('Trust git repository') {
+            steps {
+                sh '''
+                    git config --global --add safe.directory '*'
+                '''
+            }
+        }
+
         stage('Prepare Tools') {
             steps {
                 sh '''
@@ -50,21 +65,7 @@ spec:
                 '''
             }
         }
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
-        stage('Trust git repository') {
-            steps {
-                sh '''
-                    git config --global --add safe.directory '*'
-                '''
-            }
-        }
+        
         stage('Show Commit') {
             steps {
                 script {
