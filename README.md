@@ -93,7 +93,10 @@ back-on-track/
 │   ├── script.js
 │   └── style.css
 ├── jenkins/
-│   └── Jenkinsfile
+│   |__backend
+│   |  └── Jenkinsfile
+    |__frontend
+    |  └── Jenkinsfile
 ├── k8s/
 │   ├── api/
 │   │   ├── api-configmap.yaml
