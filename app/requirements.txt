@@ -2,3 +2,5 @@ fastapi
 uvicorn[standard]
 redis
 prometheus_client
+httpx
+pytest

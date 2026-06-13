@@ -78,6 +78,10 @@ def del_value(key: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+#app health endpoint, used for liveness tests, seperated from redis.
+@app.get("/livez")
+def app_health():
+    return {"status": "app is running"}
 
 @app.get("/metrics")
 def metrics():
