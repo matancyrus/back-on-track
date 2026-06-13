@@ -46,6 +46,7 @@ spec:
                     apk add --no-cache git
                     python --version
                     git --version
+                    pip install pytest
                 '''
             }
         }
