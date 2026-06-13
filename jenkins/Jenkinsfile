@@ -84,7 +84,7 @@ spec:
                     python -m compileall .
                 '''
             }
-
+        }
         stage('liveness test') {
             steps {
                 sh '''
