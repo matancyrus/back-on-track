@@ -40,15 +40,6 @@ spec:
             }
         }     
 
-        stage('Prepare Tools') {
-            steps {
-                sh '''
-                    apk add --no-cache git
-                    python --version
-                    git --version
-                '''
-            }
-        }
 
         // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
         stage('Trust git repository') {
@@ -80,7 +71,7 @@ spec:
                             printf '{"auths":{"https://index.docker.io/v1/":{"auth":"%s"}}}\\n' "$AUTH" > /kaniko/.docker/config.json
 
                             /kaniko/executor \
-                            --context "$WORKSPACE/app" \
+                            --context "$WORKSPACE/frontend" \
                             --dockerfile "$WORKSPACE/frontend/Dockerfile" \
                             --destination "$DOCKERHUB_REPO:latest"
                         '''
