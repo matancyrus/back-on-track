@@ -66,19 +66,6 @@ spec:
             }
         }
 
-        stage('Show Commit') {
-            steps {
-                script {
-                    env.IMAGE_TAG = sh(
-                        script: "git rev-parse --short HEAD",
-                        returnStdout: true
-                    ).trim()
-                }
-
-                echo "Current commit short SHA: ${env.IMAGE_TAG}"
-            }
-        }
-
         stage('Validate Python App') {
             steps {
                 sh '''
@@ -118,7 +105,7 @@ spec:
                             /kaniko/executor \
                             --context "$WORKSPACE/app" \
                             --dockerfile "$WORKSPACE/app/Dockerfile" \
-                            --destination "$DOCKERHUB_REPO:$IMAGE_TAG"
+                            --destination "$DOCKERHUB_REPO:$latest"
                         '''
                     }
                 }
@@ -131,9 +118,9 @@ spec:
                     sh '''
                         set -eux
 
-                        echo "Deploying image: $DOCKERHUB_REPO:$IMAGE_TAG"
+                        echo "Deploying image: $DOCKERHUB_REPO:latest"
                         kubectl set image deployment/$DEPLOYMENT_NAME \
-                        $CONTAINER_NAME=$DOCKERHUB_REPO:$IMAGE_TAG \
+                        $CONTAINER_NAME=$DOCKERHUB_REPO:latest \
                         -n $K8S_NAMESPACE
 
                         kubectl rollout status deployment/$DEPLOYMENT_NAME \
