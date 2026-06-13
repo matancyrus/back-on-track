@@ -52,11 +52,11 @@ spec:
                     apk add --no-cache git
                     python --version
                     git --version
-                    pip install -r $WORKSPACE/jenkins/backend/requirements.txt
+                    pip install -r $WORKSPACE/app/requirements.txt
                 '''
             }
         }
-        
+
         // This stage is necessary to avoid "fatal: detected dubious ownership in repository at /workspace" error
         stage('Trust git repository') {
             steps {

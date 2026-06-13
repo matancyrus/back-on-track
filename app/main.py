@@ -83,13 +83,14 @@ def del_value(key: str):
 def app_health():
     return {"status": "app is running"}
 
+
+# Metrics:
 @app.get("/metrics")
 def metrics():
     """ Exposes application metrics in a Prometheus-compatible format. """
     return generate_latest(registry), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 
-# Metrics:
 # Create a counter metric
 http_requests_total = Counter(
     "http_requests_total",
