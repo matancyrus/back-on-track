@@ -38,6 +38,7 @@ spec:
         CONTAINER_NAME = "back-on-track-api"
         K8S_NAMESPACE = "testing"
     }
+
     stages {
         stage('Prepare Tools') {
             steps {
@@ -62,7 +63,7 @@ spec:
                     git config --global --add safe.directory '*'
                 '''
             }
-
+        }
         // This stage is necessary to download the app depndencies
         stage('Prepare requirements') {
             steps {
