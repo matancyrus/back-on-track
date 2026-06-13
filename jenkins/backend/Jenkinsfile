@@ -129,15 +129,7 @@ spec:
             steps {
                 container('kubectl') {
                     sh '''
-                        set -eux
-
-                        echo "Deploying image: $DOCKERHUB_REPO:$IMAGE_TAG"
-                        kubectl set image deployment/$DEPLOYMENT_NAME \
-                        $CONTAINER_NAME=$DOCKERHUB_REPO:$IMAGE_TAG \
-                        -n $K8S_NAMESPACE
-
-                        kubectl rollout status deployment/$DEPLOYMENT_NAME \
-                        -n $K8S_NAMESPACE
+                    sed -i "s|image: .*|image: ${DOCKERHUB_REPO}:${IMAGE_TAG}|" k8s/api/api-deployment.yaml
                     '''
                 }
             }
