@@ -15,7 +15,7 @@ spec:
       containers:
         - name: back-on-track-api
           image: matancyrus/back-on-track:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           envFrom:
